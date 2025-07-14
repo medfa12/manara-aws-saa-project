@@ -27,15 +27,12 @@ def lambda_handler(event, context):
     buf.seek(0)
 
     processed_key = f"{basename}_processed.jpg"
-    s3.put_object(Bucket=DEST, Key=processed_key, Body=buf, ContentType="image/jpeg")
+    s3.put_object(
+        Bucket=DEST, 
+        Key=processed_key, 
+        Body=buf, 
+        ContentType="image/jpeg",
+        ACL='public-read'
+    )
 
-    item = {
-        "imageId": str(uuid.uuid4()),
-        "srcBucket": src_bucket,
-        "srcKey": key,
-        "processedKey": processed_key,
-        "timestamp": int(time.time())
-    }
-    TABLE.put_item(Item=item)
-
-    return {"status": "OK", "dest": DEST, "metadata_status": "SAVED"}
+    return {"status": "OK", "dest": DEST}

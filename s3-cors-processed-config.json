@@ -5,7 +5,7 @@
                 "http://manara-image-frontend.s3-website-us-east-1.amazonaws.com"
             ],
             "AllowedMethods": [
-                "PUT"
+                "GET"
             ],
             "AllowedHeaders": [
                 "*"

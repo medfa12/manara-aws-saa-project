@@ -1,5 +1,5 @@
 {
-    "AllowOrigins": ["*"],
+    "AllowOrigins": ["http://manara-image-frontend.s3-website-us-east-1.amazonaws.com"],
     "AllowMethods": ["GET", "POST", "OPTIONS"],
     "AllowHeaders": ["Content-Type"],
     "MaxAge": 3600

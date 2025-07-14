@@ -1,15 +1,10 @@
-import json
-import boto3
-import os
+import json, boto3, os
 
 s3 = boto3.client('s3')
 UPLOAD_BUCKET = os.environ['UPLOAD_BUCKET']
 PROCESSED_BUCKET = os.environ.get('PROCESSED_BUCKET', 'manara-my-processed-bucket')
 
 def lambda_handler(event, context):
-    print(json.dumps(event)) # Log the entire event for debugging
-
-    # Default headers for CORS
     headers = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type',
@@ -17,10 +12,8 @@ def lambda_handler(event, context):
     }
 
     try:
-        # For HTTP APIs, the method is in event['requestContext']['http']['method']
         method = event['requestContext']['http']['method']
 
-        # Handle preflight OPTIONS request for CORS
         if method == 'OPTIONS':
             return {
                 'statusCode': 204,
@@ -30,15 +23,17 @@ def lambda_handler(event, context):
 
         if method == 'POST':
             key = event['queryStringParameters'].get('filename', 'upload.jpg')
+            contentType = event['queryStringParameters'].get('contentType', 'application/octet-stream')
             presigned_url = s3.generate_presigned_url('put_object',
-                                                      Params={'Bucket': UPLOAD_BUCKET, 'Key': key},
+                                                      Params={'Bucket': UPLOAD_BUCKET, 'Key': key, 'ContentType': contentType},
                                                       ExpiresIn=3600)
             return {
                 'statusCode': 200,
                 'headers': headers,
                 'body': json.dumps({'upload_url': presigned_url})
             }
-        elif method == 'GET':
+
+        if method == 'GET':
             key = event['queryStringParameters'].get('key')
             if not key:
                 raise ValueError("Missing 'key' parameter")
@@ -50,11 +45,10 @@ def lambda_handler(event, context):
                 'headers': headers,
                 'body': json.dumps({'view_url': presigned_url})
             }
-        else:
-            raise ValueError(f"Unsupported method: {method}")
-            
+
+        raise ValueError(f"Unsupported method: {method}")
+
     except Exception as e:
-        print(f"ERROR: {e}")
         return {
             'statusCode': 500,
             'headers': headers,

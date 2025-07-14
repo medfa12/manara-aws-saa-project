@@ -52,7 +52,8 @@ uploadBtn.addEventListener('click', async () => {
         
         // Step 1: Get presigned upload URL
         const filename = `${Date.now()}-${selectedFile.name}`;
-        const uploadResponse = await fetch(`${API_ENDPOINT}/upload?filename=${filename}`, {
+        const contentType = selectedFile.type;
+        const uploadResponse = await fetch(`${API_ENDPOINT}/upload?filename=${filename}&contentType=${encodeURIComponent(contentType)}`, {
             method: 'POST'
         });
         const uploadData = await uploadResponse.json();
@@ -65,7 +66,7 @@ uploadBtn.addEventListener('click', async () => {
         const uploadResult = await fetch(uploadData.upload_url, {
             method: 'PUT',
             body: selectedFile,
-            headers: { 'Content-Type': selectedFile.type }
+            headers: { 'Content-Type': contentType }
         });
         
         if (!uploadResult.ok) throw new Error('Upload failed');
@@ -75,7 +76,6 @@ uploadBtn.addEventListener('click', async () => {
         // Step 3: Wait for processing and get result
         const processedFilename = filename.replace(/\.[^/.]+$/, '_processed.jpg');
         await pollForResult(processedFilename);
-        
     } catch (error) {
         result.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
     } finally {
@@ -86,18 +86,17 @@ uploadBtn.addEventListener('click', async () => {
 });
 
 async function pollForResult(processedFilename) {
-    const maxAttempts = 30; // 30 seconds max
+    const maxAttempts = 30;
     let attempts = 0;
     
     while (attempts < maxAttempts) {
+        progressBar.value = 50 + (attempts / maxAttempts) * 45;
+        
         try {
-            progressBar.value = 50 + (attempts / maxAttempts) * 45;
-            
             const viewResponse = await fetch(`${API_ENDPOINT}/view?key=${processedFilename}`);
             const viewData = await viewResponse.json();
             
             if (viewResponse.ok) {
-                // Success - display the processed image
                 progressBar.value = 100;
                 result.innerHTML = `
                     <h3>Processing Complete!</h3>
@@ -106,17 +105,13 @@ async function pollForResult(processedFilename) {
                 `;
                 return;
             }
-            
-            // Wait 1 second before next attempt
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            attempts++;
-            
         } catch (error) {
-            attempts++;
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            // Ignore errors and retry
         }
+        
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        attempts++;
     }
     
-    // Timeout
     throw new Error('Processing timed out. Please try again.');
 } 
