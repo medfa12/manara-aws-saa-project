@@ -1,0 +1,26 @@
+{
+  "Comment": "Simple workflow for image processing",
+  "StartAt": "ProcessImage",
+  "States": {
+    "ProcessImage": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:us-east-1:409554971999:function:ImageProcessor:$LATEST",
+        "Payload.$": "$"
+      },
+      "Next": "Success",
+      "Retry": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ]
+    },
+    "Success": {
+      "Type": "Succeed"
+    }
+  }
+} 

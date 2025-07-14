@@ -1,5 +1,7 @@
 param(
-  [string]$LayerArn = $layerArn  # paste value or pass in
+  [string]$LayerArn,  
+  [string]$ProcessedBucket,
+  [string]$RoleName = "image-processor-lambda-role"
 )
 
 $zip="function.zip"
@@ -12,11 +14,11 @@ if (!$functionArn) {
   aws lambda create-function `
     --function-name ImageProcessor `
     --runtime python3.12 `
-    --role arn:aws:iam::$((aws sts get-caller-identity --query Account --output text)):role/$roleName `
+    --role arn:aws:iam::$((aws sts get-caller-identity --query Account --output text)):role/$RoleName `
     --handler handler.lambda_handler `
     --zip-file "fileb://$zip" `
     --layers $LayerArn `
-    --environment Variables="{DEST_BUCKET=$processedBucket}"
+    --environment "Variables={DEST_BUCKET=$ProcessedBucket}"
 } else {
   aws lambda update-function-code `
     --function-name ImageProcessor `
