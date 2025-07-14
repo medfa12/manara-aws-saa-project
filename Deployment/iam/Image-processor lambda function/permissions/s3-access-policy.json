@@ -2,12 +2,15 @@
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "ReadOriginals",
+      "Sid": "ReadOriginalsAndList",
       "Effect": "Allow",
       "Action": [
         "s3:GetObject"
       ],
-      "Resource": "arn:aws:s3:::manara-my-upload-bucket/*"
+      "Resource": [
+        "arn:aws:s3:::manara-my-upload-bucket",
+        "arn:aws:s3:::manara-my-upload-bucket/*"
+      ]
     },
     {
       "Sid": "WriteProcessedCopies",
