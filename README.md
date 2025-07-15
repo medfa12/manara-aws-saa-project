@@ -4,7 +4,7 @@ This project demonstrates a complete serverless architecture for uploading, proc
 
 **[Live Demo](http://manara-image-frontend.s3-website-us-east-1.amazonaws.com/)** | **[Project Steps](AWS%20SAA%20MANARA%20-%20Steps%20.md)**
 
-> **Note**: The live demo will remain available until July 18th, 2024.
+> **Note**: The live demo will remain available until July 18th, 2025.
 
 ---
 
