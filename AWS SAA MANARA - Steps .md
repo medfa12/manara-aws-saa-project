@@ -170,8 +170,24 @@ Deploying the frontend code to the S3 bucket configured for website hosting.
 
 ![image.png](Steps_images/image%2026.png)
 
+## 4.6 Configuring Cross-Origin Resource Sharing (CORS)
+
+To allow the frontend website to communicate with the API Gateway and upload files directly to the S3 bucket, CORS must be configured.
+
+### 4.6.1 Configure CORS for API Gateway
+
+This command updates the API to allow cross-origin requests from the frontend.
+
 ![image.png](Steps_images/image%2027.png)
 
+### 4.6.2 Configure CORS for S3 Upload Bucket
+
+This command applies a CORS policy to the S3 upload bucket, enabling direct browser uploads.
+
 ![image.png](Steps_images/image%2028.png)
+
+## 4.7 Verifying API Gateway Routes
+
+Finally, confirm that the API Gateway is configured with the correct `POST` and `GET` routes.
 
 ![image.png](Steps_images/image%2029.png)
