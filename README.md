@@ -35,22 +35,18 @@ You can also use the Mermaid code below in tools like Lucidchart to generate the
 
 ```mermaid
 graph TD
-    subgraph "User and Frontend"
-        User["👤 User"] -- "1. Visits website" --> Frontend["🌐 S3 Static Website"];
-        Frontend -- "2. Requests secure upload URL" --> APIGW["API Gateway"];
-        APIGW -- "3. Returns presigned URL" --> Frontend;
-        Frontend -- "4. Uploads image directly" --> UploadBucket["S3 Upload Bucket"];
-    end
-
-    subgraph "Backend Processing"
-        APIGW -- "Invokes" --> APIHandlerLambda["λ API Handler Lambda"];
-        APIHandlerLambda -- "Generates presigned URL for" --> UploadBucket;
-        
-        UploadBucket -- "5. Triggers on new image" --> ImageProcessorLambda["λ Image Processor Lambda"];
-        ImageProcessorLambda -- "6. Resizes image & saves to" --> ProcessedBucket["S3 Processed Bucket"];
-        ImageProcessorLambda -- "7. Writes metadata to" --> DynamoDB["⚙️ DynamoDB Table"];
-    end
-
+    User[👤 User] --> Frontend[🌐 S3 Static Website]
+    Frontend --> APIGW[API Gateway]
+    APIGW --> Frontend
+    Frontend --> UploadBucket[S3 Upload Bucket]
+    
+    APIGW --> APIHandlerLambda[λ API Handler Lambda]
+    APIHandlerLambda --> UploadBucket
+    
+    UploadBucket --> ImageProcessorLambda[λ Image Processor Lambda]
+    ImageProcessorLambda --> ProcessedBucket[S3 Processed Bucket]
+    ImageProcessorLambda --> DynamoDB[⚙️ DynamoDB Table]
+    
     style User fill:#f9f,stroke:#333,stroke-width:2px
     style Frontend fill:#ccf,stroke:#333,stroke-width:2px
 ```
