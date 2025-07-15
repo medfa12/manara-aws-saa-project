@@ -13,7 +13,9 @@
     {
       "Sid": "SignGetForViews",
       "Effect": "Allow",
-      "Action": "s3:GetObject",
+      "Action": [
+        "s3:GetObject"
+      ],
       "Resource": "arn:aws:s3:::manara-my-processed-bucket/*"
     }
   ]
