@@ -29,7 +29,7 @@ This architecture is designed to be highly scalable, resilient, and cost-efficie
 
 The architecture is composed of a frontend application, a backend API, and a processing pipeline, all built on serverless AWS services.
 
-![Architecture Diagram](https://mermaid.ink/img/pako:eNqNVMtuwyAQ_BXKVw-QDRt-lVOnnuqhDRC4hW3FSqwESpSKKvj3rqNNm9TJ5cEeszu7w2gXgG3QBhW-qByg3vGg0y_C9K_kS9Y-m1gQJcM6A4e2Y5c6Kj-5G5VwI9C_h3p_A2h_Vd-VlA8z5fI8pBvG-A5H68y6YqU-G7X3eQY2vVw8K_Jb-6Q87_lKxWdM1oF16T6D9vQ3G1sFk8N6649K60o4Mv6r49Uo3x6y5Y69Vj5G_g3hQo0GqJg6z86D2KYYn8Qj3f88yW7F2Wl1T2M3iM5eXk48Dq9c-j7dO3jG5s9_xYm6J31BChjN0cEw-6-F0G3w3c5jF0iG5k7_Qj1gH0T6G-g-E-DMM8hSg5QhQOqLqXpC_S2zWJ0X1F5RuaPmH1kFw-kPqH1Tyo5w_p55y3WdJ7W-4vWdJ_eB7j5f_t6d9w_6i7_E?type=png)
+![Architecture Diagram](./architecture/aws.png)
 
 You can also use the Mermaid code below in tools like Lucidchart to generate the diagram yourself:
 
