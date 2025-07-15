@@ -31,7 +31,7 @@ The architecture is composed of a frontend application, a backend API, and a pro
 
 ![Architecture Diagram](./architecture/aws.png)
 
-You can also use the Mermaid code below in tools like Lucidchart to generate the diagram yourself:
+<!-- Mermaid code :
 
 ```mermaid
 graph TD
@@ -53,7 +53,7 @@ graph TD
 
     style User fill:#f9f,stroke:#333,stroke-width:2px
     style Frontend fill:#ccf,stroke:#333,stroke-width:2px
-```
+``` -->
 
 ## Live Demo
 
